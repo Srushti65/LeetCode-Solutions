@@ -1,36 +1,41 @@
 class Solution {
 public:
-    int trap(vector<int>& height) 
+    int trap(vector<int>& v) 
     {
-        int n = height.size();
-        vector<int> p(n);
-        vector<int> s(n);
+        int n = v.size();
+        int left = 0;
+        int right = n-1;
+        int lmax = v[left];
+        int rmax = v[right];
+        int ans=0;
         
-        p[0]=height[0];
-        s[n-1] = height[n-1];
-        
-        for(int i=1;i<n;i++)
+        while(left<=right)
         {
-            p[i] = max(p[i-1],height[i]);
+            if(v[left]<=v[right])
+            {
+                 if(v[left]>lmax)
+                 {
+                     lmax=v[left];
+                 }
+                else
+                {
+                    ans += lmax-v[left];
+                }
+                left++;
+            }
+            else
+            {
+                if(v[right]>rmax)
+                {
+                    rmax = v[right];
+                }
+                else
+                {
+                    ans += rmax-v[right];
+                }
+                right--;
+            }
         }
-        
-        for(int i=n-2;i>=0;i--)
-        {
-            s[i] = max(s[i+1],height[i]);
-        }
-        
-        int ans = 0;
-        
-        for(int i=0;i<n;i++)
-        {
-            if(height[i]==p[i] || height[i]==s[i])
-                continue;
-            
-            int minn = min(p[i],s[i]);
-            ans += (minn - height[i]);
-        }
-        
         return ans;
-        
     }
 };
