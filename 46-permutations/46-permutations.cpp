@@ -1,26 +1,26 @@
 class Solution {
 public:
-    int factt(int n)
+    
+    void solve(int index, int n, vector<vector<int>> &op, vector<int> &nums)
     {
-        if(n==1)
+        if(index==n)
         {
-            return 1;
+            op.push_back(nums);
+            return;
         }
-        return n*factt(n-1);
+        for(int i=index;i<n;i++)
+        {
+            swap(nums[index],nums[i]);
+            solve(index+1,n,op,nums);
+            swap(nums[index],nums[i]);
+        }
+        return;
     }
     vector<vector<int>> permute(vector<int>& nums) 
     {
-        sort(nums.begin(),nums.end());
-        vector<vector<int>> op;
         int n = nums.size();
-        int fact = factt(n);
-        
-        for(int i=0;i<fact;i++)
-        {
-            next_permutation(nums.begin(), nums.end());
-            op.push_back(nums);
-            //nums = tmep;
-        }
+        vector<vector<int>> op;
+        solve(0,n,op,nums);
         return op;
     }
 };
